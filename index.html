@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Currículo - Sistema Online</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-file-alt"></i> Criador de Currículos</h1>
+            <p>Preencha os dados abaixo para criar seu currículo profissional</p>
+            <div class="header-buttons">
+                <button class="btn btn-warning" onclick="limparDados()">
+                    <i class="fas fa-trash"></i> Limpar Tudo
+                </button>
+            </div>
+        </header>
+
+        <!-- Alertas -->
+        <div id="alertSuccess" class="alert alert-success">
+            <i class="fas fa-check-circle"></i> Currículo salvo com sucesso!
+        </div>
+        
+        <div id="alertError" class="alert alert-error">
+            <i class="fas fa-exclamation-circle"></i> Preencha todos os campos obrigatórios!
+        </div>
+
+        <div id="alertReset" class="alert alert-warning">
+            <i class="fas fa-info-circle"></i> Todos os dados foram limpos!
+        </div>
+
+        <!-- Sistema de Abas -->
+        <div class="abas-sistema">
+            <button class="aba ativa" data-aba="dados-pessoais">Dados Pessoais</button>
+            <button class="aba" data-aba="experiencia">Experiência</button>
+            <button class="aba" data-aba="formacao">Formação</button>
+            <button class="aba" data-aba="cursos">Cursos</button>
+            <button class="aba" data-aba="preview">Visualizar</button>
+        </div>
+
+        <!-- Aba: Dados Pessoais -->
+        <div id="dados-pessoais" class="conteudo-aba ativa">
+            <h2><i class="fas fa-user"></i> Dados Pessoais</h2>
+            
+            <!-- Área de Upload de Imagem -->
+            <div class="form-group">
+                <label>Foto de Perfil</label>
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">
+                        <p>Clique para selecionar uma foto ou arraste uma imagem aqui</p>
+                        <small>Formatos suportados: JPG, PNG, GIF (Máx. 2MB)</small>
+                    </div>
+                    <button type="button" class="btn-upload">Selecionar Imagem</button>
+                    <input type="file" id="fotoInput" accept="image/*" style="display: none;">
+                </div>
+                <div class="preview-container-img" id="previewContainerImg" style="display: none;">
+                    <img id="previewImage" class="preview-image" src="" alt="Preview da foto">
+                    <br>
+                    <button type="button" class="btn-remover-img" onclick="removerImagem()">Remover Imagem</button>
+                </div>
+            </div>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="nome">Nome Completo *</label>
+                    <input type="text" id="nome" placeholder="Seu nome completo" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cargo">Cargo/Profissão *</label>
+                    <input type="text" id="cargo" placeholder="Ex: Vendedor Varejista" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="telefone">Telefone *</label>
+                    <input type="tel" id="telefone" placeholder="(11) 99999-9999" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">E-mail *</label>
+                    <input type="email" id="email" placeholder="seu.email@exemplo.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="endereco">Endereço</label>
+                    <input type="text" id="endereco" placeholder="Rua, número, bairro">
+                </div>
+                
+                <div class="form-group">
+                    <label for="cidade">Cidade/Estado</label>
+                    <input type="text" id="cidade" placeholder="São Paulo, SP">
+                </div>
+                
+                <div class="form-group">
+                    <label for="idade">Idade</label>
+                    <input type="number" id="idade" placeholder="32">
+                </div>
+                
+                <div class="form-group">
+                    <label for="estadoCivil">Estado Civil</label>
+                    <select id="estadoCivil">
+                        <option value="">Selecione</option>
+                        <option value="Solteiro">Solteiro(a)</option>
+                        <option value="Casado">Casado(a)</option>
+                        <option value="Divorciado">Divorciado(a)</option>
+                        <option value="Viúvo">Viúvo(a)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="disponibilidade">Disponibilidade</label>
+                    <input type="text" id="disponibilidade" placeholder="Ex: Imediata">
+                </div>
+                
+                <div class="form-group">
+                    <label for="pretensao">Pretensão Salarial</label>
+                    <input type="text" id="pretensao" placeholder="R$ 2.500,00">
+                </div>
+            </div>
+            
+            <div class="botoes-acao">
+                <button class="btn btn-primary" onclick="mudarAba('experiencia')">
+                    <i class="fas fa-arrow-right"></i> Próximo
+                </button>
+            </div>
+        </div>
+
+        <!-- Aba: Experiência Profissional -->
+        <div id="experiencia" class="conteudo-aba">
+            <h2><i class="fas fa-briefcase"></i> Experiência Profissional</h2>
+            <div id="secoes-experiencia">
+                <div class="secao-dinamica">
+                    <h3>Experiência #1 <button type="button" class="btn-remover" onclick="removerSecao(this)">Remover</button></h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Cargo *</label>
+                            <input type="text" name="cargoExperiencia" placeholder="Ex: Vendedor Sênior" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Empresa *</label>
+                            <input type="text" name="empresaExperiencia" placeholder="Ex: Loja Magazine São Paulo" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Período *</label>
+                            <input type="text" name="periodoExperiencia" placeholder="Ex: Mar 2020 - Presente" required>
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Realizações *</label>
+                            <textarea name="realizacoesExperiencia" placeholder="Descreva suas principais realizações neste cargo (uma por linha)" required></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-warning" onclick="adicionarExperiencia()">
+                <i class="fas fa-plus"></i> Adicionar Experiência
+            </button>
+            
+            <div class="botoes-acao">
+                <button class="btn btn-primary" onclick="mudarAba('dados-pessoais')">
+                    <i class="fas fa-arrow-left"></i> Anterior
+                </button>
+                <button class="btn btn-primary" onclick="mudarAba('formacao')">
+                    <i class="fas fa-arrow-right"></i> Próximo
+                </button>
+            </div>
+        </div>
+
+        <!-- Aba: Formação Acadêmica -->
+        <div id="formacao" class="conteudo-aba">
+            <h2><i class="fas fa-graduation-cap"></i> Formação Acadêmica</h2>
+            <div id="secoes-formacao">
+                <div class="secao-dinamica">
+                    <h3>Formação #1 <button type="button" class="btn-remover" onclick="removerSecao(this)">Remover</button></h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Curso/Formação *</label>
+                            <input type="text" name="cursoFormacao" placeholder="Ex: Ensino Médio Completo" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Instituição *</label>
+                            <input type="text" name="instituicaoFormacao" placeholder="Ex: EE Professor João Silva" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Período/Ano de Conclusão *</label>
+                            <input type="text" name="periodoFormacao" placeholder="Ex: Concluído: 2010" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-warning" onclick="adicionarFormacao()">
+                <i class="fas fa-plus"></i> Adicionar Formação
+            </button>
+            
+            <div class="botoes-acao">
+                <button class="btn btn-primary" onclick="mudarAba('experiencia')">
+                    <i class="fas fa-arrow-left"></i> Anterior
+                </button>
+                <button class="btn btn-primary" onclick="mudarAba('cursos')">
+                    <i class="fas fa-arrow-right"></i> Próximo
+                </button>
+            </div>
+        </div>
+
+        <!-- Aba: Cursos Complementares -->
+        <div id="cursos" class="conteudo-aba">
+            <h2><i class="fas fa-certificate"></i> Cursos Complementares</h2>
+            <div id="secoes-cursos">
+                <div class="secao-dinamica">
+                    <h3>Curso #1 <button type="button" class="btn-remover" onclick="removerSecao(this)">Remover</button></h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nome do Curso *</label>
+                            <input type="text" name="nomeCurso" placeholder="Ex: Técnicas de Vendas" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Instituição *</label>
+                            <input type="text" name="instituicaoCurso" placeholder="Ex: SENAC" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Duração/Ano *</label>
+                            <input type="text" name="periodoCurso" placeholder="Ex: 40 horas (2016)" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-warning" onclick="adicionarCurso()">
+                <i class="fas fa-plus"></i> Adicionar Curso
+            </button>
+            
+            <div class="botoes-acao">
+                <button class="btn btn-primary" onclick="mudarAba('formacao')">
+                    <i class="fas fa-arrow-left"></i> Anterior
+                </button>
+                <button class="btn btn-primary" onclick="mudarAba('preview')">
+                    <i class="fas fa-eye"></i> Visualizar
+                </button>
+            </div>
+        </div>
+
+        <!-- Aba: Visualização -->
+        <div id="preview" class="conteudo-aba">
+            <h2><i class="fas fa-eye"></i> Visualização do Currículo</h2>
+            
+            <div class="preview-container" id="previewContainer">
+                <div class="preview-placeholder">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>Pré-visualização do Currículo</h3>
+                    <p>Preencha as abas anteriores para visualizar seu currículo aqui</p>
+                </div>
+            </div>
+            
+            <div class="botoes-acao">
+                <button class="btn btn-primary" onclick="mudarAba('cursos')">
+                    <i class="fas fa-arrow-left"></i> Anterior
+                </button>
+                <button class="btn btn-info" onclick="imprimirCurriculo()">
+                    <i class="fas fa-print"></i> Imprimir
+                </button>
+                <button class="btn btn-success" onclick="salvarCurriculo()">
+                    <i class="fas fa-save"></i> Salvar Currículo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
