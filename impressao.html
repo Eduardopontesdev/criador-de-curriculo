@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currículo - ${dados.nome}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Reset para impressão - REMOVE TODOS OS ELEMENTOS DO NAVEGADOR */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.3;
+            color: #333;
+            background: white;
+            font-size: 12pt;
+            padding: 0;
+            margin: 0;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
+        }
+
+        /* Container principal */
+        .curriculo-impressao {
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 15mm;
+            background: white;
+        }
+
+        /* Cabeçalho compacto */
+        .cabecalho-impressao {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2c3e50;
+        }
+
+        .foto-impressao {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #3498db;
+        }
+
+        .info-principal-impressao {
+            flex: 1;
+        }
+
+        .cabecalho-impressao h1 {
+            font-size: 18pt;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .cabecalho-impressao h2 {
+            font-size: 13pt;
+            color: #3498db;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .contato-impressao {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 8px;
+            font-size: 9pt;
+        }
+
+        .contato-item-impressao {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .contato-item-impressao i {
+            color: #3498db;
+            font-size: 10pt;
+        }
+
+        /* Seções compactas */
+        .secao-impressao {
+            margin-bottom: 15px;
+            page-break-inside: avoid;
+        }
+
+        .titulo-secao-impressao {
+            color: #2c3e50;
+            border-bottom: 1px solid #3498db;
+            padding-bottom: 3px;
+            margin-bottom: 10px;
+            font-size: 13pt;
+            font-weight: 600;
+        }
+
+        /* Dados pessoais em grid */
+        .info-pessoal-impressao {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+            font-size: 10pt;
+        }
+
+        .info-item-impressao {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-item-impressao strong {
+            color: #2c3e50;
+            font-size: 9pt;
+            margin-bottom: 2px;
+        }
+
+        /* Experiência profissional compacta */
+        .experiencia-impressao {
+            margin-bottom: 12px;
+        }
+
+        .experiencia-impressao:last-child {
+            margin-bottom: 0;
+        }
+
+        .empresa-cargo-impressao {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 3px;
+        }
+
+        .cargo-empresa-impressao h3 {
+            font-size: 11pt;
+            color: #2c3e50;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .empresa-impressao {
+            font-size: 10pt;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 2px;
+        }
+
+        .periodo-impressao {
+            font-size: 9pt;
+            color: #7f8c8d;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .realizacoes-impressao {
+            list-style: none;
+            padding: 0;
+            margin: 5px 0 0 0;
+        }
+
+        .realizacoes-impressao li {
+            position: relative;
+            padding-left: 10px;
+            margin-bottom: 2px;
+            font-size: 9pt;
+            color: #555;
+            line-height: 1.2;
+        }
+
+        .realizacoes-impressao li:before {
+            content: "•";
+            color: #3498db;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Formação compacta */
+        .formacao-impressao {
+            margin-bottom: 10px;
+        }
+
+        .formacao-impressao:last-child {
+            margin-bottom: 0;
+        }
+
+        .formacao-info-impressao {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .formacao-detalhes h3 {
+            font-size: 11pt;
+            color: #2c3e50;
+            font-weight: 600;
+            margin: 0 0 2px 0;
+        }
+
+        .formacao-detalhes p {
+            font-size: 10pt;
+            color: #666;
+            margin: 0;
+        }
+
+        .periodo-formacao-impressao {
+            font-size: 9pt;
+            color: #7f8c8d;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* Cursos compactos */
+        .cursos-lista-impressao {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+        }
+
+        .curso-item-impressao {
+            padding: 5px 0;
+        }
+
+        .curso-item-impressao h4 {
+            font-size: 10pt;
+            color: #2c3e50;
+            font-weight: 600;
+            margin: 0 0 2px 0;
+        }
+
+        .curso-item-impressao p {
+            font-size: 9pt;
+            color: #7f8c8d;
+            margin: 0;
+        }
+
+        /* REMOVER TODOS OS ELEMENTOS DO NAVEGADOR NA IMPRESSÃO */
+        @media print {
+            /* Remove margens padrão do navegador */
+            @page {
+                margin: 0 !important;
+                padding: 0 !important;
+                size: A4;
+            }
+
+            /* Remove cabeçalho e rodapé do navegador */
+            @page :header {
+                display: none !important;
+            }
+
+            @page :footer {
+                display: none !important;
+            }
+
+            /* Remove qualquer elemento que o navegador possa adicionar */
+            body::before,
+            body::after,
+            .header,
+            .footer {
+                display: none !important;
+            }
+
+            /* Garante que o conteúdo ocupe toda a página */
+            body {
+                margin: 0 !important;
+                padding: 0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .curriculo-impressao {
+                padding: 10mm !important;
+                margin: 0 !important;
+                max-width: none !important;
+                width: 100% !important;
+                box-shadow: none !important;
+            }
+            
+            .cabecalho-impressao {
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+            }
+            
+            .secao-impressao {
+                margin-bottom: 12px;
+            }
+            
+            /* Garantir que cores importantes sejam impressas */
+            .cabecalho-impressao {
+                border-bottom-color: #2c3e50 !important;
+            }
+            
+            .titulo-secao-impressao {
+                color: #2c3e50 !important;
+                border-bottom-color: #3498db !important;
+            }
+
+            /* Remove qualquer texto de URL ou data */
+            a[href]:after {
+                content: "" !important;
+            }
+
+            /* Remove links de impressão */
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        /* JavaScript para forçar remoção de elementos do navegador */
+        .force-print-styles {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
+        }
+
+        /* Compactação para mobile na impressão */
+        @media print and (max-width: 170mm) {
+            .cabecalho-impressao {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .foto-impressao {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .contato-impressao {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-pessoal-impressao {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="force-print-styles">
+    <div class="curriculo-impressao" id="curriculoImpressao">
+        <!-- O conteúdo será inserido aqui via JavaScript -->
+    </div>
+
+    <script>
+        // Função para carregar os dados do currículo
+        function carregarCurriculoImpressao() {
+            const dadosSalvos = localStorage.getItem('curriculo_dados');
+            if (dadosSalvos) {
+                const dados = JSON.parse(dadosSalvos);
+                gerarHTMLImpressao(dados);
+            } else {
+                document.getElementById('curriculoImpressao').innerHTML = `
+                    <div style="text-align: center; padding: 50px;">
+                        <h2>Nenhum currículo encontrado</h2>
+                        <p>Volte à página principal e preencha seus dados.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Gerar HTML otimizado para impressão
+        function gerarHTMLImpressao(dados) {
+            const foto = dados.foto || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80';
+            
+            // Atualizar o título da página com o nome da pessoa
+            document.title = `Currículo - ${dados.nome}`;
+            
+            const html = `
+                <!-- Cabeçalho -->
+                <header class="cabecalho-impressao">
+                    <img src="${foto}" alt="Foto de ${dados.nome}" class="foto-impressao">
+                    
+                    <div class="info-principal-impressao">
+                        <h1>${dados.nome}</h1>
+                        <h2>${dados.cargo}</h2>
+                        <div class="contato-impressao">
+                            <div class="contato-item-impressao">
+                                <i class="fas fa-phone"></i>
+                                <span>${dados.telefone}</span>
+                            </div>
+                            <div class="contato-item-impressao">
+                                <i class="fas fa-envelope"></i>
+                                <span>${dados.email}</span>
+                            </div>
+                            <div class="contato-item-impressao">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>${dados.cidade}</span>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Dados Pessoais -->
+                <section class="secao-impressao evitar-quebra">
+                    <h2 class="titulo-secao-impressao">Dados Pessoais</h2>
+                    <div class="info-pessoal-impressao">
+                        ${dados.idade ? `<div class="info-item-impressao"><strong>Idade:</strong><span>${dados.idade} anos</span></div>` : ''}
+                        ${dados.estadoCivil ? `<div class="info-item-impressao"><strong>Estado Civil:</strong><span>${dados.estadoCivil}</span></div>` : ''}
+                        ${dados.endereco ? `<div class="info-item-impressao"><strong>Endereço:</strong><span>${dados.endereco}</span></div>` : ''}
+                        ${dados.disponibilidade ? `<div class="info-item-impressao"><strong>Disponibilidade:</strong><span>${dados.disponibilidade}</span></div>` : ''}
+                        ${dados.pretensao ? `<div class="info-item-impressao"><strong>Pretensão Salarial:</strong><span>${dados.pretensao}</span></div>` : ''}
+                    </div>
+                </section>
+
+                <!-- Experiência Profissional -->
+                ${dados.experiencias && dados.experiencias.length > 0 ? `
+                <section class="secao-impressao evitar-quebra">
+                    <h2 class="titulo-secao-impressao">Experiência Profissional</h2>
+                    ${dados.experiencias.map(exp => `
+                        <div class="experiencia-impressao">
+                            <div class="empresa-cargo-impressao">
+                                <div class="cargo-empresa-impressao">
+                                    <h3>${exp.cargo}</h3>
+                                    <div class="empresa-impressao">${exp.empresa}</div>
+                                </div>
+                                <div class="periodo-impressao">${exp.periodo}</div>
+                            </div>
+                            ${exp.realizacoes && exp.realizacoes.length > 0 ? `
+                            <ul class="realizacoes-impressao">
+                                ${exp.realizacoes.map(r => `<li>${r}</li>`).join('')}
+                            </ul>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </section>
+                ` : ''}
+
+                <!-- Formação Acadêmica -->
+                ${dados.formacoes && dados.formacoes.length > 0 ? `
+                <section class="secao-impressao evitar-quebra">
+                    <h2 class="titulo-secao-impressao">Formação Acadêmica</h2>
+                    ${dados.formacoes.map(form => `
+                        <div class="formacao-impressao">
+                            <div class="formacao-info-impressao">
+                                <div class="formacao-detalhes">
+                                    <h3>${form.curso}</h3>
+                                    <p>${form.instituicao}</p>
+                                </div>
+                                <div class="periodo-formacao-impressao">${form.periodo || ''}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </section>
+                ` : ''}
+
+                <!-- Cursos Complementares -->
+                ${dados.cursos && dados.cursos.length > 0 ? `
+                <section class="secao-impressao evitar-quebra">
+                    <h2 class="titulo-secao-impressao">Cursos Complementares</h2>
+                    <div class="cursos-lista-impressao">
+                        ${dados.cursos.map(curso => `
+                            <div class="curso-item-impressao">
+                                <h4>${curso.nome}</h4>
+                                <p>${curso.instituicao} - ${curso.periodo}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+                ` : ''}
+            `;
+
+            document.getElementById('curriculoImpressao').innerHTML = html;
+            
+            // Forçar estilos de impressão e depois imprimir
+            setTimeout(() => {
+                // Aplicar estilos forçados antes de imprimir
+                document.body.classList.add('force-print-styles');
+                
+                // Imprimir
+                window.print();
+                
+                // Fechar a janela após impressão (opcional)
+                setTimeout(() => {
+                    window.close();
+                }, 100);
+            }, 500);
+        }
+
+        // Carregar o currículo quando a página abrir
+        document.addEventListener('DOMContentLoaded', carregarCurriculoImpressao);
+
+        // Também forçar estilos quando a página estiver prestes a ser impressa
+        window.addEventListener('beforeprint', function() {
+            document.body.classList.add('force-print-styles');
+            // Remove qualquer cabeçalho/rodapé que o navegador tente adicionar
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @page { margin: 0 !important; }
+                body { margin: 0 !important; }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>

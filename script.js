@@ -503,7 +503,7 @@ function coletarDadosFormulario() {
         dados.formacoes.push({
             curso: inputs[0].value,
             instituicao: inputs[1].value,
-            period: inputs[2].value
+            periodo: inputs[2].value
         });
     });
     
@@ -654,8 +654,13 @@ function enviarWhatsApp() {
 }
 
 // Imprimir currículo
+// Imprimir currículo (ATUALIZADA)
 function imprimirCurriculo() {
-    window.print();
+    // Salva os dados atuais antes de imprimir
+    salvarDadosLocalStorage();
+    
+    // Abre a página de impressão otimizada
+    window.open('impressao.html', '_blank');
 }
 
 // Salvar currículo
